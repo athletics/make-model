@@ -1,6 +1,6 @@
 # Make / Model
 
-Athletics created Make/Model as an environment for building prototypes. 
+[Athletics](http://athleticsnyc.com) created Make/Model as an environment for building prototypes. 
 
 As the web has changed, our process for designing websites has changed. Necessitated by the responsive nature of today’s web, we strive to get out of PSDs and into the browser as early in the process as possible. This allows us to build for the constraints of the multi-device web early in our design process.
 
