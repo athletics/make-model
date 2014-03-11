@@ -1,0 +1,4 @@
+# Ignore cache files
+*
+# Not this file
+!.gitignore

@@ -1,0 +1,16 @@
+{
+	"name": "athletics/make-model",
+	"description": "An API layer for Athletics prototyping environments",
+	"homepage": "https://github.com/athletics/make-model",
+	"license": "MIT",
+	"type": "library",
+
+	"autoload": {
+		"psr-4": {"Athletics\\Make_Model\\": "app"}
+	},
+	
+	"require" : {
+		"silex/silex": "1.2.*@dev",
+		"twig/twig": "1.15.*@dev"
+	}
+}

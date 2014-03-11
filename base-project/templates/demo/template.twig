@@ -1,0 +1,21 @@
+{% extends "base.twig" %}
+
+{% block title %}
+	Test
+{% endblock %}
+
+{% block body %}
+	{% for item in articles %}
+		<article>
+			<h2>
+				{{ item.title }}
+			</h2>
+			<figure>
+				<img src="{{ item.assetUrl }}?format=500w">
+			</figure>
+			<div class="body">
+				{{ item.body | raw }}
+			</div>
+		</article>
+	{% endfor %}
+{% endblock %}
