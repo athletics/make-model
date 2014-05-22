@@ -155,19 +155,19 @@ class Client {
 	 * @return array $response
 	 */
 	private function _request( $item, $query = array() ) {
-		$cacke_key = $item;
+		$cache_key = $item;
 		$url = "http://{$this->url}/{$item}?format=json";
 
 		// if query var
 		if ( ! empty( $query ) ) {
 			$query_string = $this->_http_build_query($query);
 
-			$cacke_key = $cacke_key . $query_string;
+			$cache_key = $cache_key . $query_string;
 			$url = $url . $query_string;
 		}
 
 		// return from cache if 
-		if ( $response = Cache::get( $cacke_key ) ) {
+		if ( $response = Cache::get( $cache_key ) ) {
 			return $response;
 		}
 
@@ -184,12 +184,12 @@ class Client {
 		$request = Tools::curl($url, $options, $method);
 
 		// check for errors
-		$this->_errors( $cacke_key, $request );
+		$this->_errors( $cache_key, $request );
 
 		extract($request);
 
 		// cache response 
-		Cache::set( $cacke_key, $response );
+		Cache::set( $cache_key, $response );
 
 		return $response;
 	}
