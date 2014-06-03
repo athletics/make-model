@@ -43,9 +43,8 @@ class Auth {
 		$method = 'GET';
 
 		$request = Tools::curl($url, $options, $method);
-		extract($request);
 
-		if ($status !== 401) return;
+		if ($request['status'] !== 401) return;
 
 		// authorize
 		$this->_authorize();
@@ -78,7 +77,7 @@ class Auth {
 		$method = 'POST';
 
 		$request = Tools::curl($url, $options, $method);
-		extract($request);
+		$response = Tools::json_decode($request['response']);
 
 		if ( isset( $response['error'] ) ) {
 			$error = 'Squarespace Config Error: ' . ( isset( $response['errors']['password'] ) ? $response['errors']['password'] : 'Unable to connect.' );
@@ -106,7 +105,8 @@ class Auth {
 		$method = 'GET';
 
 		$request = Tools::curl($url, $options, $method);
-		extract($request);
+		
+		$response = $request['response'];
 
 		preg_match('/crumb=(.*);/', $response, $matches);
 
