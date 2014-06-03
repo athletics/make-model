@@ -229,8 +229,10 @@ class Client {
 	 */
 	private function _errors( $item, $request ) {
 
-		if ( isset( $request['response']['error'] ) ) {
+		if ( $request['status'] !== 200 ) {
 			$url = "http://{$this->url}/{$item}";
+
+			$request['response'] = Tools::json_decode($request['response']);
 
 			die( "<h1>{$request['status']} : <a href='{$url}' target='_blank'>{$item}</a></h1> {$request['response']['error']}" );
 		}
