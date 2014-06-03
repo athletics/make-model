@@ -185,8 +185,7 @@ class Client {
 
 		// check for errors
 		$this->_errors( $cache_key, $request );
-
-		extract($request);
+		$response = Tools::json_decode($request['response']);
 
 		// cache response 
 		Cache::set( $cache_key, $response );
