@@ -251,7 +251,7 @@ class Client {
 		$query_string = '';
 
 		foreach ( $query as $key => $value ) {
-			$value = array_map( 'urlencode', $value );
+			$value = array_map( 'urlencode', ( is_array($value) ? $value : array($value) ) );
 			$csv = implode(',', $value);
 			$query_string .= "&{$key}={$csv}";
 		}
