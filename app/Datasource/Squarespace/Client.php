@@ -107,6 +107,10 @@ class Client {
 			return $data['item'];
 		}
 
+		if ( isset($data['pagination']['nextPage']) ) {
+			$data = $this->_get_paginated_data( $collection, $query, $data, $params['limit'] );
+		}
+
 		$items = $data['items'];
 
 		// featured
@@ -143,6 +147,47 @@ class Client {
 		}
 
 		return $items;
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	/**
+	 * Request Paginated Data (if needed)
+	 *
+	 * @param string $collection
+	 * @param array $query
+	 * @param array $data
+	 * @param int $limit
+	 * 
+	 * @return array $data
+	 */
+	private function _get_paginated_data( $collection, $query, &$data, $limit ) {
+
+		if ( (int) $limit < (int) $data['pagination']['pageSize'] ) {
+			return $data;
+		}
+
+		$total = $data['pagination']['pageSize'];
+		$offset = $data['pagination']['nextPageOffset'];
+		$next_page = true;
+
+		while ( $total < $limit && $next_page ) {
+			$query['offset'] = $offset;
+
+			$request = $this->_request( $collection, $query );
+
+			$data['items'] = array_merge($data['items'], $request['items']);
+
+			if ( isset($request['pagination']['nextPageOffset']) ) {
+				$offset = $request['pagination']['nextPageOffset'];
+			}
+
+			if ( ! isset($request['pagination']['nextPage']) ) {
+				$next_page = false;
+			}
+		}
+
+		return $data;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
