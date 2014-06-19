@@ -56,8 +56,6 @@ class Tools {
 		$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		curl_close($ch);
 
-		$response = self::json_decode($response);
-
 		$return['status'] = $status;
 		$return['response'] = $response;
 
