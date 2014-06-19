@@ -1,21 +1,9 @@
 {% extends "base.twig" %}
 
 {% block title %}
-	Squarespace Blog
+	{{ page_title }}
 {% endblock %}
 
 {% block body %}
-	{% for item in articles %}
-		<article>
-			<h2>
-				{{ item.title }}
-			</h2>
-			<figure>
-				<img src="{{ image(item.assetUrl, [500]) }}">
-			</figure>
-			<div class="body">
-				{{ item.body | raw }}
-			</div>
-		</article>
-	{% endfor %}
+	{{ content }}
 {% endblock %}

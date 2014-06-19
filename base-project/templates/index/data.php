@@ -1,10 +1,6 @@
 <?php
 
-$articles = $app['client']->get_items( 'blog', array(
-	'limit' => 10,
-	'random' => true,
-) );
-
 return array(
-	'articles' => $articles,
+	'page_title' => 'Hello, world.',
+	'content' => 'Make / Model is successfully installed. Please create the config.php file for your project if you have not already done so.',
 );
