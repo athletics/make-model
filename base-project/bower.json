@@ -1,4 +1,5 @@
 {
+	"name": "Make-Model",
 	"version": "0.1.0",
 	"ignore": [
 		"**/.*",
