@@ -26,8 +26,10 @@ class Tools {
 		}
 
 		$ch = curl_init();
+		$useragent = self::useragent();
 
 		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_USERAGENT, $useragent);
 
 		foreach ($options as $option => $value) {
 			$option = str_replace( 'CURLOPT_', '', strtoupper($option) );
@@ -77,6 +79,25 @@ class Tools {
 		$result = json_decode( $json_response_string, true );
 
 		return $result;
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	/**
+	 * User-Agent
+	 *
+	 * @return string $useragent
+	 */
+	public static function useragent() {
+		if ( isset($_SERVER['HTTP_USER_AGENT']) ) {
+			return $_SERVER['HTTP_USER_AGENT'];
+		}
+		else if ( defined('PHP_VERSION_ID') ) {
+			return 'PHP ' . PHP_VERSION_ID;
+		}
+		else {
+			return 'PHP';
+		}
 	}
 
 }
