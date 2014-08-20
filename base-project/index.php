@@ -41,7 +41,7 @@ use Athletics\Make_Model\Twig\Extensions\ImageExtension as ImageExtension;
 
 
 /**
- * Config 
+ * Config
  */
 if ( ! isset($config['datasource']) || empty($config['datasource']) ) {
 	die('Please set the datasource in the config file.');
@@ -90,7 +90,7 @@ $app
 		// clean url
 		$url = str_replace($server_path, '', $url);
 
-		$files = array( 
+		$files = array(
 			'template' => "{$url}/template.twig",
 			'data' => "{$url}/data.php",
 		);
@@ -104,8 +104,26 @@ $app
 			}
 		}
 
+		$scheme = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ) ? 'https://' : 'http://';
+		$host = $_SERVER['HTTP_HOST'];
+		$path = str_replace( '/index.php', '', $_SERVER['PHP_SELF'] );
+		$url = $scheme . $host . $path;
+
+		// build project globals
+		$project_globals = array(
+			'paths' => array(
+				'assets' => "{$url}/assets",
+				'img' => "{$url}/assets/img",
+				'css' => "{$url}/assets/css",
+				'js' => "{$url}/assets/js",
+			)
+		);
+
 		// get data
 		$data = include($templates . $files['data']);
+
+		// merge in project globals
+		$data = array_merge($data, $project_globals);
 
 		return $app['twig']->render($files['template'], $data);
 	})
