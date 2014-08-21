@@ -30,6 +30,8 @@ class Tools {
 
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_USERAGENT, $useragent);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
 
 		foreach ($options as $option => $value) {
 			$option = str_replace( 'CURLOPT_', '', strtoupper($option) );
