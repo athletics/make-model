@@ -106,7 +106,7 @@ $app
 
 		$scheme = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ) ? 'https://' : 'http://';
 		$host = $_SERVER['HTTP_HOST'];
-		$path = str_replace( '/index.php', '', $_SERVER['PHP_SELF'] );
+		$path = substr( $_SERVER['PHP_SELF'], 0, strpos( $_SERVER['PHP_SELF'], '/index.php' ) );
 		$url = $scheme . $host . $path;
 
 		// build project globals
