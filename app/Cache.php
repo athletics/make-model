@@ -43,7 +43,7 @@ class Cache {
 	 * Get Cache Item
 	 *
 	 * @param string $key
-	 * 
+	 *
 	 * @return bool|array
 	 */
 	public static function get( $key ) {
@@ -71,7 +71,7 @@ class Cache {
 
 	/**
 	 * Helper Function: Sanitize Key
-	 * 
+	 *
 	 * Clean up key name
 	 * Ex. users/john-doe => users.john-doe
 	 *

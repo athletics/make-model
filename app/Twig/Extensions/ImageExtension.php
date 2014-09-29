@@ -53,7 +53,7 @@ class ImageExtension extends \Twig_Extension {
 			case 'Squarespace':
 				$image = $this->_squarespace($image, $size);
 				break;
-		}		
+		}
 
 		return $image;
 	}

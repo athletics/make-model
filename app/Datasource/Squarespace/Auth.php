@@ -105,7 +105,7 @@ class Auth {
 		$method = 'GET';
 
 		$request = Tools::curl($url, $options, $method);
-		
+
 		$response = $request['response'];
 
 		preg_match('/crumb=(.*);/', $response, $matches);

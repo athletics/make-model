@@ -45,13 +45,13 @@ class Client {
 	 * Get Item
 	 *
 	 * @param string $item
-	 * @param array $params 
+	 * @param array $params
 	 * 		- featured bool
 	 * 		- random bool
 	 * 		- offset int
 	 * 		- category mixed
 	 * 		- tag mixed
-	 * 
+	 *
 	 * @return array $item
 	 */
 	public function get_item( $item, $params = array() ) {
@@ -78,14 +78,14 @@ class Client {
 	 * Get Items
 	 *
 	 * @param string $collection
-	 * @param array $params 
+	 * @param array $params
 	 * 		- featured bool
 	 * 		- random bool
 	 * 		- offset int
 	 * 		- limit int
 	 * 		- category mixed
 	 * 		- tag mixed
-	 * 
+	 *
 	 * @return array $items
 	 */
 	public function get_items( $collection, $params = array() ) {
@@ -99,7 +99,7 @@ class Client {
 				$query[$taxonomy] = $params[$taxonomy];
 			}
 		}
-		
+
 		$data = $this->_request( $collection, $query );
 
 		// If is not a collection, sqs returns item instead of items
@@ -119,7 +119,7 @@ class Client {
 			$key = 'starred';
 
 			// returns filtered array
-			$items = $this->_multidimensional_array_filter( 
+			$items = $this->_multidimensional_array_filter(
 				$items,
 				$key,
 				$params['featured']
@@ -136,7 +136,7 @@ class Client {
 			$items = array_slice( $items, $params['offset'] );
 		}
 
-		// limit 
+		// limit
 		if ( isset( $params['limit'] ) && ! empty( $params['limit'] ) ) {
 			$items = array_slice( $items, 0, $params['limit'] );
 		}
@@ -158,7 +158,7 @@ class Client {
 	 * @param array $query
 	 * @param array $data
 	 * @param int $limit
-	 * 
+	 *
 	 * @return array $data
 	 */
 	private function _get_paginated_data( $collection, $query, &$data, $limit ) {
@@ -211,7 +211,7 @@ class Client {
 			$url = $url . $query_string;
 		}
 
-		// return from cache if 
+		// return from cache if
 		if ( $response = Cache::get( $cache_key ) ) {
 			return $response;
 		}
@@ -232,7 +232,7 @@ class Client {
 		$this->_errors( $cache_key, $request );
 		$response = Tools::json_decode($request['response']);
 
-		// cache response 
+		// cache response
 		Cache::set( $cache_key, $response );
 
 		return $response;
@@ -268,7 +268,7 @@ class Client {
 
 	/**
 	 * Check Request for Errors
-	 * 
+	 *
 	 * @param string $item
 	 * @param array $request
 	 */
@@ -310,7 +310,7 @@ class Client {
 	 * Helper: Filter Useful Data
 	 *
 	 * @param array $items
-	 * @return array $filtered 
+	 * @return array $filtered
 	 */
 	private function _filter_items( $items ) {
 		$unnecessary = array(
