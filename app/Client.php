@@ -141,7 +141,7 @@ class Client {
 
 		if ( ! file_exists(APP_ROOT . "/Datasource/{$datasource}/Client.php") ) {
 			die("{$datasource} does not exist.");
-		}		
+		}
 
 		require_once(APP_ROOT . "/Datasource/{$datasource}/Client.php");
 

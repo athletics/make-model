@@ -1,16 +1,19 @@
 {
-	"name": "Make-Model",
-	"version": "0.1.0",
-	"ignore": [
-		"**/.*",
-		"node_modules",
-		"bower_components",
-		"test",
-		"tests"
-	],
-	"dependencies": {
-		"jquery": "~2.1.0",
-		"underscore": "~1.6.0",
-		"bootstrap": "~3.1.1"
-	}
+  "name": "Make-Model",
+  "version": "0.1.1",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "underscore": "master",
+    "bootstrap": "~3.1.1",
+    "require": "*",
+    "almond": "~0.2.9",
+    "jquery-ui": "~1.11.1"
+  }
 }

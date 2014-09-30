@@ -8,25 +8,25 @@
  */
 
 ({
-    baseUrl:                  './assets/js',
+    baseUrl:                  'assets/',
     paths: {
-		'requirelib':         './require/require',
-		'jquery':             './lib/jquery-1.11.0.min',
-		'jqueryui':           './lib/jquery-ui-1.10.4.custom.min',
-		'throttledebounce':   './lib/jquery.ba-throttle-debounce.min',
-		'app/util':           './app/util',
-		'app/mediator':       './app/mediator',
-		'app/keycontrol':     './app/keycontrol'
+		'requirelib':           'bower_components/require/build/require.min',
+		'jquery':               'bower_components/jquery/dist/jquery.min',
+		'jqueryui/events':      'bower_components/jquery-ui/ui/minified/effect.min',
+		'jquery/throttledebounce':     'js/lib/jquery.ba-throttle-debounce.min',
+		'app/util':             'js/app/util',
+		'app/mediator':         'js/app/mediator',
+		'app/keycontrol':       'js/app/keycontrol'
     },
 	shim: {
-		'jqueryui': {
+		'jqueryui/events': {
 			'deps':           [ 'jquery' ]
 		},
-		'throttledebounce': {
+		'jquery/throttledebounce': {
 			'deps':           [ 'jquery' ]
 		}
 	},
     name:                     'app',
     out:                      'compiled/app-compiled.js',
     include:                  [ 'requirelib' ]
-})
+});
