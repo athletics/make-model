@@ -1,6 +1,6 @@
 module.exports = function(grunt) {
 
-	// 1. All configuration goes here 
+	// 1. All configuration goes here
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 
@@ -17,7 +17,7 @@ module.exports = function(grunt) {
 				}
 			}
 		},
-		
+
 		watch: {
 			options : {
 				livereload: true,
@@ -33,7 +33,6 @@ module.exports = function(grunt) {
 		}
 	});
 
-	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
