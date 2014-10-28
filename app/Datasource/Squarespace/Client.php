@@ -107,6 +107,12 @@ class Client {
 			return $data['item'];
 		}
 
+		// If this is a page
+		if ( isset( $data['mainContent'] ) ) {
+			$data['collection']['body'] = $data['mainContent'];
+			return $data['collection'];
+		}
+
 		if ( isset($data['pagination']['nextPage']) ) {
 			$data = $this->_get_paginated_data( $collection, $query, $data, $params['limit'] );
 		}
