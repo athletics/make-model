@@ -1,0 +1,9 @@
+default:
+  description: 'Default development tasks'
+  tasks:
+    - less
+    - watch
+prod:
+  description: 'Same as default without watch'
+  tasks:
+    - less
