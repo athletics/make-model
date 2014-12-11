@@ -31,6 +31,6 @@ This will install the module as well as add it to the `package.json` file.
 
 Make / Model uses Bower to install common front-end assets like jQuery or Twitter Bootstrap. Bower will install the packages defined in `bower.json`.
 
-```bash 
+```bash
 bower install
 ```
