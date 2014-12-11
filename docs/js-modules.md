@@ -7,7 +7,7 @@ JavaScript Modules
 * */assets/js/require* - RequireJS library and config files
 
 ### Notes
-* All modules are written for RequireJS 
+* All modules are written for RequireJS
 * All modules optional
 * jQuery is loaded outside of RequireJS to make it available immediately on DOM ready.
 * jQuery is also declared within RequireJS config as a supplement (see RequireJS readme)
@@ -34,7 +34,7 @@ JavaScript Modules
 * has()
 
 ## typeahead.js
-**Description:** 
+**Description:**
 
 ## modal.js
 **Description:** standard modal window
