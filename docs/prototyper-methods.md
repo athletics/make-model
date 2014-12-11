@@ -71,6 +71,6 @@ When using Squarespace, requesting a single item, like `http://www.destinationko
 $app['client']->get_item('sporty-sexy-glam/sporty-sexy-glam');
 ```
 
-Alternatively, a collection could be passed to `get_item()`, which would return one item from the collection. 
+Alternatively, a collection could be passed to `get_item()`, which would return one item from the collection.
 
 Note: If a single item is passed to `get_item()`, `$params` are ignored.
