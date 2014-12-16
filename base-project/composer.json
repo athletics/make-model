@@ -1,0 +1,21 @@
+{
+	"name": "athletics/make-model-base-project",
+	"description": "",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Athletics",
+			"homepage": "http://athleticsnyc.com"
+		}
+	],
+	"minimum-stability": "dev",
+	"require": {},
+	"require-dev": {
+		"wp-coding-standards/wpcs": "dev-master",
+		"squizlabs/php_codesniffer": "*"
+	},
+	"scripts": {
+		"post-install-cmd": "vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs",
+		"post-update-cmd": "vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs"
+	}
+}
