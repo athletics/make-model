@@ -18,71 +18,61 @@ use Exception;
 
 class Auth {
 
+	/**
+	 * @var string $url
+	 * @access private
+	 */
 	private $url;
-	private $cookie;
+
+	/**
+	 * @var string $crumb
+	 * @access private
+	 */
+	private $crumb;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	/**
+	 * Init
+	 * 	- Setup Squarespace URL
+	 *  - Check if logged in
+	 */
 	public function init() {
-		// set up cookie
-		$this->_cookie();
 
-		// get and sanitize url
-		$this->url = Config::get('squarespace.url');
-		$this->url = str_replace(array('http://', 'https://', '/'), array('', '', ''), $this->url);
+		$this->url = $this->squarespace_url();
+		$response = Tools::get( "http://{$this->url}/?format=json" );
 
-		$url = "http://{$this->url}/?format=json";
-		$options = array(
-			'CURLOPT_MAXREDIRS' => 4,
-			'CURLOPT_RETURNTRANSFER' => true,
-			'CURLOPT_FOLLOWLOCATION' => true,
-			'CURLOPT_COOKIEJAR' => $this->cookie,
-			'CURLOPT_COOKIEFILE' => $this->cookie,
-			'CURLOPT_HEADER' => true
-		);
-		$method = 'GET';
+		if ( $response->getStatusCode() !== 401 ) return;
 
-		$request = Tools::curl($url, $options, $method);
+		$this->crumb = $this->get_crumb( $response );
+		$this->authorize();
 
-		if ($request['status'] !== 401) return;
-
-		// authorize
-		$this->_authorize();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private function _authorize() {
-		if ( is_null(Config::get('squarespace.password')) ) {
-			die('Please set the Squarespace password. Ex. <code>Config::set(\'squarespace.password\', \'p4ssw0rd!\');</code>');
+	private function authorize() {
+
+		if ( is_null( Config::get( 'squarespace.password' ) ) ) {
+			die( 'Please set the Squarespace password. Ex. <code>Config::set(\'squarespace.password\', \'p4ssw0rd!\');</code>' );
 		}
 
-		// clear cookies
-		file_put_contents($this->cookie, '');
-
-		$crumb = $this->_crumb();
+		$crumb = $this->crumb;
+		$password = Config::get( 'squarespace.password' );
 
 		$url = "http://{$this->url}/api/auth/AuthenticateWithSite";
-		$options = array(
-			'CURLOPT_MAXREDIRS' => 4,
-			'CURLOPT_RETURNTRANSFER' => true,
-			'CURLOPT_FOLLOWLOCATION' => true,
-			'CURLOPT_COOKIEJAR' => $this->cookie,
-			'CURLOPT_COOKIEFILE' => $this->cookie,
-			'CURLOPT_POSTFIELDS' => array(
-				'password' => Config::get('squarespace.password'),
-				'crumb' => $crumb
-			)
-		);
-		$method = 'POST';
+		$data = [
+			'crumb' => $crumb,
+			'password' => $password,
+		];
 
-		$request = Tools::curl($url, $options, $method);
-		$response = Tools::json_decode($request['response']);
+		$response = Tools::post( $url, [ 'body' => $data ] );
+		$msg = json_decode( (string) $response->getBody(), true );
 
-		if ( isset( $response['error'] ) ) {
-			$error = 'Squarespace Config Error: ' . ( isset( $response['errors']['password'] ) ? $response['errors']['password'] : 'Unable to connect.' );
-			die( $error );
+		if ( isset( $msg['error'] ) ) {
+			die( $msg['error'] );
 		}
+
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -90,42 +80,39 @@ class Auth {
 	/**
 	 * Get crumb (nonce) for auth request
 	 *
-	 * @return string $crumb
+	 * @return mixed $crumb
 	 */
-	private function _crumb() {
-		$url = "http://{$this->url}/";
-		$options = array(
-			'CURLOPT_MAXREDIRS' => 4,
-			'CURLOPT_RETURNTRANSFER' => true,
-			'CURLOPT_FOLLOWLOCATION' => true,
-			'CURLOPT_COOKIEJAR' => $this->cookie,
-			'CURLOPT_COOKIEFILE' => $this->cookie,
-			'CURLOPT_HEADER' => true
-		);
-		$method = 'GET';
+	private function get_crumb( $response ) {
 
-		$request = Tools::curl($url, $options, $method);
+		$string = (string) $response->getHeader( 'set-cookie' );
 
-		$response = $request['response'];
+		preg_match( '/crumb=(.*);/', $string, $matches );
 
-		preg_match('/crumb=(.*);/', $response, $matches);
-
-		$crumb = $matches[1];
+		$crumb = ! empty( $matches[1] ) ? $matches[1] : false;
 
 		return $crumb;
+
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
-	 * Set up cookie
+	 * Sanitized URL from Config
+	 *
+	 * @return string
 	 */
-	private function _cookie() {
-		$this->cookie = COOKIES . '/squarespace.cookie.txt';
+	public function squarespace_url() {
 
-		if ( ! file_exists( $this->cookie ) ) {
-			file_put_contents($this->cookie, '');
-		}
+		$url = Config::get( 'squarespace.url' );
+
+		$search = [
+			'http://',
+			'https://',
+			'/',
+		];
+
+		return str_replace( $search, '', $url );
+
 	}
 
 }
