@@ -67,10 +67,10 @@ class Auth {
 		];
 
 		$response = Tools::post( $url, [ 'body' => $data ] );
-		$msg = json_decode( (string) $response->getBody(), true );
+		$data = json_decode( (string) $response->getBody(), true );
 
-		if ( isset( $msg['error'] ) ) {
-			die( $msg['error'] );
+		if ( isset( $data['error'] ) ) {
+			die( $data['error'] );
 		}
 
 	}
