@@ -229,7 +229,7 @@ class Client {
 
 		// check for errors
 		$this->_errors( $cache_key, $response );
-		$data = json_decode( (string) $response->getBody(), true );
+		$data = $response->json();
 
 		// cache response
 		Cache::set( $cache_key, $data );
@@ -277,7 +277,7 @@ class Client {
 
 		if ( $status !== 200 ) {
 			$url = "http://{$this->url}/{$item}";
-			$data = json_decode( (string) $response->getBody(), true );
+			$data = $response->json();
 			die( "<h1>{$status} : <a href='{$url}' target='_blank'>{$item}</a></h1> {$data['error']}" );
 		}
 

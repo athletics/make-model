@@ -67,7 +67,7 @@ class Auth {
 		];
 
 		$response = Tools::post( $url, [ 'body' => $data ] );
-		$data = json_decode( (string) $response->getBody(), true );
+		$data = $response->json();
 
 		if ( isset( $data['error'] ) ) {
 			die( $data['error'] );
