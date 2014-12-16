@@ -2,9 +2,9 @@
 
 namespace Athletics\Make_Model\Squarespace;
 
-use Athletics\Make_Model\Config as Config;
-use Athletics\Make_Model\Tools as Tools;
-use Athletics\Make_Model\Cache as Cache;
+use Athletics\Make_Model\Config;
+use Athletics\Make_Model\Tools;
+use Athletics\Make_Model\Cache;
 
 use Exception;
 
