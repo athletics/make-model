@@ -80,6 +80,7 @@ class Auth {
 	/**
 	 * Get crumb (nonce) for auth request
 	 *
+	 * @param  GuzzleHttp\Message\ResponseInterface $response
 	 * @return mixed $crumb
 	 */
 	private function get_crumb( $response ) {
