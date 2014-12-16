@@ -16,8 +16,11 @@ use Exception;
 
 class Client {
 
+	/**
+	 * @var string $url
+	 * @access private
+	 */
 	private $url;
-	private $cookie;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -25,18 +28,18 @@ class Client {
 	 * Init handles auth
 	 */
 	public function init() {
-		if ( is_null(Config::get('squarespace.url')) ) {
-			die('Please set the Squarespace url. Ex. <code>Config::set(\'squarespace.url\', \'blog.squarespace.com\');</code>');
-		}
 
-		$this->url = Config::get('squarespace.url');
+		if ( is_null( Config::get( 'squarespace.url' ) ) ) {
+			die( 'Please set the Squarespace url. Ex. <code>Config::set(\'squarespace.url\', \'blog.squarespace.com\');</code>' );
+		}
 
 		require_once(__DIR__ . '/Auth.php');
 
 		$auth = new Auth();
 		$auth->init();
 
-		$this->cookie = COOKIES . '/squarespace.cookie.txt';
+		$this->url = $auth->squarespace_url();
+
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -203,7 +206,7 @@ class Client {
 	 *
 	 * @param string $item
 	 * @param array $query
-	 * @return array $response
+	 * @return array $data
 	 */
 	private function _request( $item, $query = array() ) {
 		$cache_key = $item;
@@ -218,30 +221,20 @@ class Client {
 		}
 
 		// return from cache if
-		if ( $response = Cache::get( $cache_key ) ) {
-			return $response;
+		if ( $data = Cache::get( $cache_key ) ) {
+			return $data;
 		}
 
-		$options = array(
-			'CURLOPT_MAXREDIRS' => 4,
-			'CURLOPT_RETURNTRANSFER' => true,
-			'CURLOPT_FOLLOWLOCATION' => true,
-			'CURLOPT_COOKIEJAR' => $this->cookie,
-			'CURLOPT_COOKIEFILE' => $this->cookie,
-			'CURLOPT_HEADER' => true
-		);
-		$method = 'GET';
-
-		$request = Tools::curl($url, $options, $method);
+		$response = Tools::get( $url );
 
 		// check for errors
-		$this->_errors( $cache_key, $request );
-		$response = Tools::json_decode($request['response']);
+		$this->_errors( $cache_key, $response );
+		$data = json_decode( (string) $response->getBody(), true );
 
 		// cache response
-		Cache::set( $cache_key, $response );
+		Cache::set( $cache_key, $data );
 
-		return $response;
+		return $data;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -276,16 +269,16 @@ class Client {
 	 * Check Request for Errors
 	 *
 	 * @param string $item
-	 * @param array $request
+	 * @param GuzzleHttp\Message\ResponseInterface $response
 	 */
-	private function _errors( $item, $request ) {
+	private function _errors( $item, $response ) {
 
-		if ( $request['status'] !== 200 ) {
+		$status = $response->getStatusCode();
+
+		if ( $status !== 200 ) {
 			$url = "http://{$this->url}/{$item}";
-
-			$request['response'] = Tools::json_decode($request['response']);
-
-			die( "<h1>{$request['status']} : <a href='{$url}' target='_blank'>{$item}</a></h1> {$request['response']['error']}" );
+			$data = json_decode( (string) $response->getBody(), true );
+			die( "<h1>{$status} : <a href='{$url}' target='_blank'>{$item}</a></h1> {$data['error']}" );
 		}
 
 	}
