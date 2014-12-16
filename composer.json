@@ -10,6 +10,7 @@
 	},
 
 	"require" : {
+		"guzzlehttp/guzzle": "~5.0",
 		"silex/silex": "~1.2",
 		"twig/twig": "1.*"
 	}
