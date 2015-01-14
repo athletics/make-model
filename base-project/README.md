@@ -34,3 +34,10 @@ Make / Model uses Bower to install common front-end assets like jQuery or Twitte
 ```bash
 bower install
 ```
+
+Additional packages can be found on the [Bower website](http://bower.io/search/). To install a new package run:
+
+```bash
+bower install <name> --save
+```
+```
