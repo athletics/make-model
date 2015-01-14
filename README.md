@@ -64,7 +64,7 @@ Copy the example config file `config.example.php` as `config.php` and fill in th
 
 ## Credits
 
-An Atheltics Project.
+An Athletics Project.
 
 ### Contributors
 
