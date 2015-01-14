@@ -19,7 +19,7 @@ To install the node packages for this base project navigate to the project’s d
 npm install
 ```
 
-To install addition packages run:
+To install additional packages run:
 
 ```bash
 npm install <name> --save-dev
