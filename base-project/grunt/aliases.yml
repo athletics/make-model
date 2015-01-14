@@ -2,6 +2,7 @@ default:
   description: 'Default development tasks'
   tasks:
     - less
+    - php
     - watch
 prod:
   description: 'Same as default without watch'
