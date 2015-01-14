@@ -40,4 +40,17 @@ Additional packages can be found at [bower.io/search/](http://bower.io/search/).
 ```bash
 bower install <name> --save
 ```
+
+## Usage
+
+### Grunt
+
+Grunt is used to start the PHP web server and the watch task for file changes.
+
+To start the default task run:
+
+```bash
+grunt
 ```
+
+Use the key combination ctrl-c to exit the task.
